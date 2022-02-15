@@ -3,30 +3,30 @@ local find = string.find
 local sub = string.sub
 local reverse = string.reverse
 
+local operations = {" ^ "," / "," * "," - "," + "}
+local getmath = {
+[" ^ "] = function (a,b) return a^b end,
+[" / "] = function (a,b) return a/b end,
+[" * "] = function (a,b) return a*b end,
+[" - "] = function (a,b) return a-b end,
+[" + "] = function (a,b) return a+b end
+}
+local len_operations = #operations
+
 local function expr(val)
     if find(val, "[0-9]") == nil then
         return val
     end
 
 	val = gsub(gsub(gsub(gsub(gsub(gsub(gsub(gsub(val,
-				" ", ""),
-				"(%d+%.*%d*)", " %1 "),
-				"%(", " %("),
-				"%)", "%) "),
-				"([^ ])%- ", "%1 -"),
-				"([^ ])%+ ", "%1 "),
-				"^%- ", " -"),
-				"^%+ ", " ")
-
-	local operations = {" ^ "," / "," * "," - "," + "}
-	local getmath = {
-	[" ^ "] = function (a,b) return a^b end,
-	[" / "] = function (a,b) return a/b end,
-	[" * "] = function (a,b) return a*b end,
-	[" - "] = function (a,b) return a-b end,
-	[" + "] = function (a,b) return a+b end
-	}
-	local len_operations = #operations
+			" ", ""),
+			"(%d+%.*%d*)", " %1 "),
+			"%(", " %("),
+			"%)", "%) "),
+			"([^ ])%- ", "%1 -"),
+			"([^ ])%+ ", "%1 "),
+			"^%- ", " -"),
+			"^%+ ", " ")
 
     while true do
         local temp = val
